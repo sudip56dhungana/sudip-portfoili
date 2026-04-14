@@ -20,8 +20,11 @@ export default function Home() {
           getProfile(),
           getProjects(),
         ]);
-        setProfile(profileRes.data.profile);
-        setProjects(projectsRes.data.projects);
+       const profileData = profileRes?.data?.profile;
+const projectsData = projectsRes?.data?.projects;
+
+setProfile(profileData || null);
+setProjects(Array.isArray(projectsData) ? projectsData : []);
       } catch (err) {
         console.error('Failed to load data:', err);
         // Use fallback defaults
