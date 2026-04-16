@@ -5,7 +5,7 @@ const API_BASE = `${process.env.REACT_APP_API_URL || 'https://sudip-portfoili.on
 const api = axios.create({
   baseURL: API_BASE,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 20000,
+  timeout: 10000,
 });
 
 // Profile

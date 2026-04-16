@@ -1,17 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { getMessages, markMessageRead, deleteMessage } from '../api';
+import { getMessages, markMessageRead, deleteMessage, createProject, getProjects, deleteProject } from '../api';
 import './AdminMessages.css';
 
 export default function AdminMessages() {
   const [adminKey, setAdminKey] = useState('');
   const [inputKey, setInputKey] = useState('');
   const [messages, setMessages] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [projectLoading, setProjectLoading] = useState(false);
   const [error, setError] = useState('');
+  const [projectError, setProjectError] = useState('');
   const [selectedMsg, setSelectedMsg] = useState(null);
   const [filter, setFilter] = useState('all'); // all | unread | read
   const [deleteConfirm, setDeleteConfirm] = useState(null);
+  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [projectForm, setProjectForm] = useState({
+    title: '',
+    description: '',
+    longDescription: '',
+    techStack: '',
+    imageUrl: '',
+    liveUrl: '',
+    githubUrl: '',
+    featured: false,
+    category: 'web'
+  });
+
+  const fetchProjects = async () => {
+    setProjectLoading(true);
+    setProjectError('');
+    try {
+      const res = await getProjects();
+      setProjects(res.data.projects);
+    } catch (err) {
+      setProjectError('Failed to load projects.');
+    } finally {
+      setProjectLoading(false);
+    }
+  };
 
   const fetchMessages = async (key) => {
     setLoading(true);
@@ -21,6 +49,7 @@ export default function AdminMessages() {
       setMessages(res.data.messages);
       setUnreadCount(res.data.unreadCount);
       setAdminKey(key);
+      await fetchProjects();
     } catch (err) {
       setError(err?.response?.data?.error || 'Failed to load messages. Check your admin key.');
     } finally {
@@ -55,6 +84,42 @@ export default function AdminMessages() {
       setDeleteConfirm(null);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleProjectSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const techStack = projectForm.techStack.split(',').map(t => t.trim()).filter(t => t);
+      await createProject({ ...projectForm, techStack }, adminKey);
+      await fetchProjects();
+      setShowProjectForm(false);
+      setProjectForm({
+        title: '',
+        description: '',
+        longDescription: '',
+        techStack: '',
+        imageUrl: '',
+        liveUrl: '',
+        githubUrl: '',
+        featured: false,
+        category: 'web'
+      });
+      alert('Project added successfully!');
+    } catch (err) {
+      console.error('Failed to add project:', err);
+      alert('Failed to add project. Please try again.');
+    }
+  };
+
+  const handleDeleteProject = async (id) => {
+    if (!window.confirm('Delete this project? This cannot be undone.')) return;
+    try {
+      await deleteProject(id, adminKey);
+      setProjects((prev) => prev.filter((project) => project._id !== id));
+    } catch (err) {
+      console.error('Failed to delete project:', err);
+      alert('Failed to delete project. Please try again.');
     }
   };
 
@@ -124,6 +189,16 @@ export default function AdminMessages() {
           <span className="admin-page-label">Messages</span>
         </div>
         <div className="admin-header-right">
+          <button
+            className="btn-primary admin-add-project"
+            onClick={() => setShowProjectForm(true)}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 5v14"/>
+              <path d="M5 12h14"/>
+            </svg>
+            Add Project
+          </button>
           {unreadCount > 0 && (
             <span className="unread-badge">{unreadCount} unread</span>
           )}
@@ -293,8 +368,168 @@ export default function AdminMessages() {
               <p>Choose a message from the list to read it here</p>
             </div>
           )}
+
+          <section className="project-management">
+            <div className="project-section-header">
+              <div>
+                <h2>Portfolio Projects</h2>
+                <p>Manage your project list directly from admin.</p>
+              </div>
+            </div>
+
+            {projectLoading ? (
+              <div className="project-loading">Loading projects...</div>
+            ) : projectError ? (
+              <div className="project-error">{projectError}</div>
+            ) : projects.length === 0 ? (
+              <div className="project-empty">
+                <p>No projects yet. Use the Add Project button above to create one.</p>
+              </div>
+            ) : (
+              <div className="project-list">
+                {projects.map((project) => (
+                  <div key={project._id} className="project-card admin-project-card">
+                    <div>
+                      <div className="project-card-top">
+                        <h3>{project.title}</h3>
+                        {project.featured && <span className="project-featured-badge">Featured</span>}
+                      </div>
+                      <p className="project-card-category">{project.category}</p>
+                      <p className="project-card-description">{project.description}</p>
+                    </div>
+                    <div className="project-card-actions">
+                      <button className="btn-outline" onClick={() => handleDeleteProject(project._id)}>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
         </main>
       </div>
+
+      {/* Add Project Modal */}
+      {showProjectForm && (
+        <div className="modal-overlay" onClick={() => setShowProjectForm(false)}>
+          <div className="modal-box project-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Add New Project</h3>
+              <button
+                className="modal-close"
+                onClick={() => setShowProjectForm(false)}
+              >
+                ×
+              </button>
+            </div>
+
+            <form onSubmit={handleProjectSubmit} className="project-form">
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Title *</label>
+                  <input
+                    type="text"
+                    value={projectForm.title}
+                    onChange={(e) => setProjectForm({...projectForm, title: e.target.value})}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Category</label>
+                  <select
+                    value={projectForm.category}
+                    onChange={(e) => setProjectForm({...projectForm, category: e.target.value})}
+                  >
+                    <option value="web">Web</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="design">Design</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Description *</label>
+                <textarea
+                  value={projectForm.description}
+                  onChange={(e) => setProjectForm({...projectForm, description: e.target.value})}
+                  rows="3"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Long Description</label>
+                <textarea
+                  value={projectForm.longDescription}
+                  onChange={(e) => setProjectForm({...projectForm, longDescription: e.target.value})}
+                  rows="4"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Tech Stack (comma-separated)</label>
+                <input
+                  type="text"
+                  value={projectForm.techStack}
+                  onChange={(e) => setProjectForm({...projectForm, techStack: e.target.value})}
+                  placeholder="React, Node.js, MongoDB"
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Image URL</label>
+                  <input
+                    type="url"
+                    value={projectForm.imageUrl}
+                    onChange={(e) => setProjectForm({...projectForm, imageUrl: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Live URL</label>
+                  <input
+                    type="url"
+                    value={projectForm.liveUrl}
+                    onChange={(e) => setProjectForm({...projectForm, liveUrl: e.target.value})}
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>GitHub URL</label>
+                  <input
+                    type="url"
+                    value={projectForm.githubUrl}
+                    onChange={(e) => setProjectForm({...projectForm, githubUrl: e.target.value})}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="checkbox-label">
+                    <input
+                      type="checkbox"
+                      checked={projectForm.featured}
+                      onChange={(e) => setProjectForm({...projectForm, featured: e.target.checked})}
+                    />
+                    Feature this project
+                  </label>
+                </div>
+              </div>
+
+              <div className="modal-actions">
+                <button type="button" className="btn-outline" onClick={() => setShowProjectForm(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn-primary">
+                  Add Project
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Delete confirm modal */}
       {deleteConfirm && (
