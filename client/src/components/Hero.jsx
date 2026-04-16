@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import './Hero.css';
-import profileimg from './profile.jpg';
+import profileimg from './profile.png';
 
 export default function Hero({ profile }) {
   const canvasRef = useRef(null);
