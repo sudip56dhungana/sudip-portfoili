@@ -35,7 +35,8 @@ router.post('/', async (req, res) => {
 // PUT /api/projects/:id - Update project (admin)
 router.put('/:id', async (req, res) => {
   try {
-    const { adminKey, ...data } = req.body;
+    const adminKey = req.body.adminKey || req.query.adminKey;
+    const { adminKey: _discard, ...data } = req.body;
     if (adminKey !== (process.env.ADMIN_PASSWORD || 'admin123')) {
       return res.status(401).json({ success: false, error: 'Unauthorized' });
     }
@@ -50,7 +51,7 @@ router.put('/:id', async (req, res) => {
 // DELETE /api/projects/:id - Delete project (admin)
 router.delete('/:id', async (req, res) => {
   try {
-    const { adminKey } = req.body;
+    const adminKey = req.body.adminKey || req.query.adminKey;
     if (adminKey !== (process.env.ADMIN_PASSWORD || 'admin123')) {
       return res.status(401).json({ success: false, error: 'Unauthorized' });
     }
