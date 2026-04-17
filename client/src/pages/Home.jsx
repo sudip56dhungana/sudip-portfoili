@@ -20,11 +20,11 @@ export default function Home() {
           getProfile(),
           getProjects(),
         ]);
-       const profileData = profileRes?.data?.profile;
-const projectsData = projectsRes?.data?.projects;
+        const profileData = profileRes?.data?.profile;
+        const projectsData = projectsRes?.data?.projects;
 
-setProfile(profileData || null);
-setProjects(Array.isArray(projectsData) ? projectsData : []);
+        setProfile(profileData || null);
+        setProjects(Array.isArray(projectsData) ? projectsData : []);
       } catch (err) {
         console.error('Failed to load data:', err);
         // Use fallback defaults
@@ -32,23 +32,31 @@ setProjects(Array.isArray(projectsData) ? projectsData : []);
           name: 'Your Name',
           title: 'Full Stack Developer',
           subtitle: 'Building beautiful web experiences',
-          bio: 'A passionate developer who loves crafting clean and efficient code.',
+          bio: 'I’m a full-stack developer focused on helping clients bring their ideas online. I build complete web solutions—from user-friendly interfaces to solid backend systems so you get a reliable product without the hassle. I care about clean work, clear communication, and delivering results that meet your needs.',
           shortBio: 'Full Stack Developer | React | Node.js | MongoDB',
           email: 'sudipdhungana41@gmail.com',
+          phone: '+9779847108767',
           location: 'Kathmandu, Nepal',
           skills: [
-            { category: 'Frontend', items: ['React', 'JavaScript', 'CSS3'] },
-            { category: 'Backend', items: ['Node.js', 'Express', 'REST APIs'] },
-            { category: 'Database', items: ['MongoDB', 'PostgreSQL'] },
-            { category: 'DevOps', items: ['Git', 'Docker', 'AWS'] },
+            { category: 'Frontend', items: ['React', 'JavaScript', 'HTML5', 'CSS3', 'Tailwind'] },
+            { category: 'Backend', items: ['Node.js', 'Express', 'REST APIs', 'GraphQL'] },
+            { category: 'Database', items: ['MongoDB', 'PostgreSQL', 'Redis', 'Firebase'] },
+            { category: 'DevOps', items: ['Git', 'Docker', 'AWS', 'CI/CD'] },
           ],
           experience: [
             {
-              company: 'Tech Corp',
-              role: 'Senior Developer',
-              duration: '2022 - Present',
+              company: 'Verticode',
+              role: 'Software Engineer',
+              duration: '2025 - Present',
               description: 'Leading frontend development and mentoring junior developers.',
               current: true,
+            },
+            {
+              company: 'Techguru',
+              role: 'frontend Developer and API Developer',
+              duration: '2024 - 2025',
+              description: 'Built scalable APIs and React dashboards from scratch.',
+              current: false,
             },
           ],
           education: [
@@ -56,10 +64,15 @@ setProjects(Array.isArray(projectsData) ? projectsData : []);
               institution: 'University of Technology',
               degree: 'BE Computer (Cmputer Engineering)',
               year: '2019 - 2024',
-              description: 'Graduated with honors.',
+              description: 'Graduated with honors. FGraduated with honors from Universal Engineering and Science College. Completed a final year project on heart disease prediction using decision tree and random forest models, focusing on building accurate and practical data-driven solutionsocus on software engineering.',
             },
           ],
-          socials: { github: '#', linkedin: '#', twitter: '#', facebook: '#' },
+          socials: {
+            github: 'https://github.com/sudip56dhungana',
+            linkedin: 'https://www.linkedin.com/in/er-sudip-dhungana-ab39501b7/',
+            twitter: 'https://twitter.com/yourusername',
+            facebook: 'https://www.facebook.com/sudip.dhungnana/',
+          },
         });
         setProjects([]);
       } finally {

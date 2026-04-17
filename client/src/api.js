@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_BASE = `${process.env.REACT_APP_API_URL || 'https://sudip-portfoili.onrender.com'}/api`;
+const API_BASE = process.env.REACT_APP_API_URL 
+  ? `${process.env.REACT_APP_API_URL}/api` 
+  : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+      ? 'http://localhost:5000/api' 
+      : 'https://sudip-portfoili.onrender.com/api');
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -20,7 +24,7 @@ export const createProject = (data, adminKey) =>
 export const updateProject = (id, data, adminKey) =>
   api.put(`/projects/${id}`, { ...data, adminKey });
 export const deleteProject = (id, adminKey) =>
-  api.delete(`/projects/${id}`, { data: { adminKey } });
+  api.delete(`/projects/${id}`, { params: { adminKey } });
 
 // Messages
 export const sendMessage = (data) => api.post('/messages', data);

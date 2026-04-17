@@ -18,7 +18,7 @@ export default function Portfolio({ projects }) {
           <p className="section-tag">My Work</p>
           <h2 className="section-title">Featured Projects</h2>
           <p className="section-subtitle">
-            A collection of projects I've built — from full-stack web apps to design experiments.
+            A collection of projects I've built from full-stack web apps to design experiments.
           </p>
         </div>
 

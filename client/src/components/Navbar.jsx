@@ -45,9 +45,9 @@ export default function Navbar({ profileName }) {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="navbar-container">
           <a href="/" className="navbar-logo">
-            {/* <span className="logo-bracket">&lt;</span> */}
-            {/* <span className="logo-name">{profileName || 'Portfolio'}</span> */}
-            {/* <span className="logo-bracket">/&gt;</span> */}
+            <span className="logo-bracket">&lt;</span>
+            <span className="logo-name">Sudip</span>
+            <span className="logo-bracket">&gt;</span>
           </a>
 
           <ul className="navbar-links">
@@ -65,7 +65,7 @@ export default function Navbar({ profileName }) {
 
           <a href="/admin/messages" className="navbar-admin-btn">
             <svg width="16" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
             Messages
           </a>
