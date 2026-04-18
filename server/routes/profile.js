@@ -50,7 +50,7 @@ router.get('/', async (req, res) => {
             },
           ],
           socials: {
-            github: '/https://github.com/sudip56dhungana',
+            github: 'https://github.com/sudip56dhungana',
             linkedin: 'https://www.linkedin.com/in/er-sudip-dhungana-ab39501b7/',
             twitter: 'https://twitter.com/yourusername',
             facebook: 'https://www.facebook.com/sudip.dhungnana/',

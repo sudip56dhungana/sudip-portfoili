@@ -64,7 +64,7 @@ export default function Home() {
               institution: 'University of Technology',
               degree: 'BE Computer (Cmputer Engineering)',
               year: '2019 - 2024',
-              description: 'Graduated with honors. FGraduated with honors from Universal Engineering and Science College. Completed a final year project on heart disease prediction using decision tree and random forest models, focusing on building accurate and practical data-driven solutionsocus on software engineering.',
+              description: 'Graduated with honors from Universal Engineering and Science College. Completed a final year project on heart disease prediction using decision tree and random forest models, focusing on building accurate and practical data-driven solutionsocus on software engineering.',
             },
           ],
           socials: {
