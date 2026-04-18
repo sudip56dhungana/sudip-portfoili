@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import './App.css';
 import Home from './pages/Home';
 import AdminMessages from './pages/AdminMessages';
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/admin/messages" element={<AdminMessages />} />
         </Routes>
+        <Analytics />
       </div>
     </Router>
   );
