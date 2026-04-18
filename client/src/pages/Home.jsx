@@ -61,8 +61,8 @@ export default function Home() {
           ],
           education: [
             {
-              institution: 'University of Technology',
-              degree: 'BE Computer (Cmputer Engineering)',
+              institution: 'Universal Engineering and Science College',
+              degree: 'BE Computer (Computer Engineering)',
               year: '2019 - 2024',
               description: 'Graduated with honors from Universal Engineering and Science College. Completed a final year project on heart disease prediction using decision tree and random forest models, focusing on building accurate and practical data-driven solutionsocus on software engineering.',
             },
