@@ -27,26 +27,26 @@ router.get('/', async (req, res) => {
           ],
           experience: [
             {
-              company: 'Tech Corp',
-              role: 'Senior Developer',
-              duration: '2022 - Present',
+              company: 'Verticode',
+              role: 'Software Engineer',
+              duration: '2025 - Present',
               description: 'Leading frontend development and mentoring junior developers.',
               current: true,
             },
             {
-              company: 'Startup XYZ',
-              role: 'Full Stack Developer',
-              duration: '2020 - 2022',
+              company: 'Techguru',
+              role: 'Frontend Developer and API Developer',
+              duration: '2024 - 2025',
               description: 'Built scalable APIs and React dashboards from scratch.',
               current: false,
             },
           ],
           education: [
             {
-              institution: 'University of Technology',
-              degree: 'BE Computer (Cmputer Engineering)',
+              institution: 'Universal Engineering and Science College',
+              degree: 'BE Computer (Computer Engineering)',
               year: '2019 - 2024',
-              description: 'Graduated with honors. FGraduated with honors from Universal Engineering and Science College. Completed a final year project on heart disease prediction using decision tree and random forest models, focusing on building accurate and practical data-driven solutionsocus on software engineering.',
+              description: 'Graduated with honors from Universal Engineering and Science College. Completed a final year project on heart disease prediction using decision tree and random forest models, focusing on building accurate and practical data-driven solutionsocus on software engineering.',
             },
           ],
           socials: {
