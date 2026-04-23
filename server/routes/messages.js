@@ -43,7 +43,7 @@ router.get('/', async (req, res) => {
   try {
     // Simple password check via query param (use proper auth in production)
     const { adminKey } = req.query;
-    if (adminKey !== (process.env.ADMIN_PASSWORD || 'admin123')) {
+    if (adminKey !== (process.env.ADMIN_PASSWORD )) {
       return res.status(401).json({ success: false, error: 'Unauthorized' });
     }
 
@@ -60,7 +60,7 @@ router.get('/', async (req, res) => {
 router.patch('/:id/read', async (req, res) => {
   try {
     const { adminKey } = req.body;
-    if (adminKey !== (process.env.ADMIN_PASSWORD || 'admin123')) {
+    if (adminKey !== (process.env.ADMIN_PASSWORD )) {
       return res.status(401).json({ success: false, error: 'Unauthorized' });
     }
 
@@ -82,7 +82,7 @@ router.patch('/:id/read', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const { adminKey } = req.body;
-    if (adminKey !== (process.env.ADMIN_PASSWORD || 'admin123')) {
+    if (adminKey !== (process.env.ADMIN_PASSWORD )) {
       return res.status(401).json({ success: false, error: 'Unauthorized' });
     }
 
